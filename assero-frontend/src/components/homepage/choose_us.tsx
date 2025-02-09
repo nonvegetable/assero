@@ -64,7 +64,7 @@ const WhyChooseUs = () => {
             whileInView="visible"
             variants={slideInLeft}
             viewport={{ once: true }}
-            className="border-b pb-4 text-[1.5rem] md:text-[2.25rem] lg:text-[3.15rem]"
+            className="border-b border-black pb-4 text-[1.5rem] md:text-[2.25rem] lg:text-[3.15rem]"
           >
             <motion.div
               className="flex justify-between items-center cursor-pointer"

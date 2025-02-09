@@ -32,6 +32,8 @@ const CreateAsset = () => {
     coOwnerDetails: "",
   });
 
+  const inputClass = "w-full border border-black rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black";
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -71,7 +73,7 @@ const CreateAsset = () => {
               name="assetType"
               value={assetType}
               onChange={handleAssetTypeChange}
-              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+              className={inputClass}
             >
               <option value="vehicle">vehicle</option>
               <option value="property">property</option>
@@ -90,7 +92,7 @@ const CreateAsset = () => {
                 name="ownerName"
                 value={formData.ownerName}
                 onChange={handleChange}
-                className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                className={inputClass}
               />
             </div>
 
@@ -104,7 +106,7 @@ const CreateAsset = () => {
                 name="dateOfBirth"
                 value={formData.dateOfBirth}
                 onChange={handleChange}
-                className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                className={inputClass}
               />
             </div>
 
@@ -118,7 +120,7 @@ const CreateAsset = () => {
                 name="idNumber"
                 value={formData.idNumber}
                 onChange={handleChange}
-                className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                className={inputClass}
               />
             </div>
 
@@ -132,7 +134,7 @@ const CreateAsset = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                className={inputClass}
               />
             </div>
           </div>
@@ -151,7 +153,7 @@ const CreateAsset = () => {
                     name="registrationNumber"
                     value={formData.registrationNumber}
                     onChange={handleChange}
-                    className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                    className={inputClass}
                   />
                 </div>
 
@@ -165,7 +167,7 @@ const CreateAsset = () => {
                     name="vin"
                     value={formData.vin}
                     onChange={handleChange}
-                    className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                    className={inputClass}
                   />
                 </div>
               </div>
@@ -180,7 +182,7 @@ const CreateAsset = () => {
                   name="makeModel"
                   value={formData.makeModel}
                   onChange={handleChange}
-                  className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                  className={inputClass}
                 />
               </div>
             </>
@@ -196,7 +198,7 @@ const CreateAsset = () => {
                   name="propertyAddress"
                   value={formData.propertyAddress}
                   onChange={handleChange}
-                  className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                  className={inputClass}
                 ></textarea>
               </div>
 
@@ -211,7 +213,7 @@ const CreateAsset = () => {
                     name="propertyType"
                     value={formData.propertyType}
                     onChange={handleChange}
-                    className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                    className={inputClass}
                   />
                 </div>
 
@@ -225,7 +227,7 @@ const CreateAsset = () => {
                     name="propertyArea"
                     value={formData.propertyArea}
                     onChange={handleChange}
-                    className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
+                    className={inputClass}
                   />
                 </div>
               </div>
