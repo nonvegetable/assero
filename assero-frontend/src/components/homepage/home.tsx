@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const Home = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -8,24 +9,27 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-[#17F538] text-black overflow-hidden">
       {/* Navbar */}
-      <motion.nav 
+      <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="flex justify-end p-4 space-x-4 md:space-x-6 text-black font-medium"
       >
-        {["home", "login", "sign up"].map((item, index) => (
-          <motion.a
-            key={item}
-            href="#"
+        {[
+          { label: "home", href: "/" },
+          { label: "login", href: "/login" },
+          { label: "sign up", href: "/signup" },
+        ].map((item, index) => (
+          <motion.div
+            key={item.label}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2 }}
             whileHover={{ scale: 1.1 }}
             className="text-sm md:text-base hover:underline"
           >
-            {item}
-          </motion.a>
+            <Link href={item.href}>{item.label}</Link>
+          </motion.div>
         ))}
       </motion.nav>
 
@@ -34,11 +38,11 @@ const Home = () => {
         <motion.h1
           initial={{ x: -1000 }}
           animate={{ x: 0 }}
-          transition={{ 
+          transition={{
             type: "spring",
             damping: 20,
             stiffness: 100,
-            duration: 1 
+            duration: 1,
           }}
           className="text-[2.5rem] md:text-[4.5rem] lg:text-[6.75rem] font-bold text-left leading-tight"
         >

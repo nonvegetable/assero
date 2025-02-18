@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +33,9 @@ const Signup = () => {
           onSubmit={handleSubmit}
           className="bg-white w-full max-w-3xl p-8 text-black"
         >
-          <h1 className="text-[3.5rem] font-bold mb-6 text-black">sign up</h1>
+          <h1 className="text-[3.5rem] font-bold mb-6 text-black text-left">
+            sign up
+          </h1>
 
           <div className="mb-6">
             <label
@@ -94,6 +97,15 @@ const Signup = () => {
           >
             sign up
           </button>
+
+          <div className="mt-4 text-left">
+            <p className="text-black text-sm">
+              Already in the club? Great!{" "}
+              <Link href="/login" className="text-green-600 underline">
+                Head over to the login page and get back to work!
+              </Link>
+            </p>
+          </div>
         </form>
       </div>
     </div>
