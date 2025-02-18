@@ -14,7 +14,7 @@ const Home = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="flex justify-end p-4 space-x-4 md:space-x-6 text-black font-medium"
       >
-        {["home", "about us", "what we do"].map((item, index) => (
+        {["home", "login", "sign up"].map((item, index) => (
           <motion.a
             key={item}
             href="#"
