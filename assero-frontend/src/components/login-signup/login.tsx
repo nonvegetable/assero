@@ -81,7 +81,7 @@ const Login = () => {
 
           <div className="mt-4 text-left">
             <p className="text-black text-sm">
-              new here? on't worry, we all start somewhere.{" "}
+              new here? on&apos;t worry, we all start somewhere.{" "}
               <Link href="/signup" className="text-green-600 underline">
                 create an account and join the chaos!
               </Link>
