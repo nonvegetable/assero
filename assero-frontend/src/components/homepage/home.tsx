@@ -46,16 +46,8 @@ const Home = () => {
           }}
           className="text-[2.5rem] md:text-[4.5rem] lg:text-[6.75rem] font-bold text-left leading-tight"
         >
-          welcome to{" "}
-          <motion.span
-            onHoverStart={() => setIsHovered(true)}
-            onHoverEnd={() => setIsHovered(false)}
-            className={`transition-all duration-300 ${
-              isHovered ? "font-dancing-script font-normal" : ""
-            }`}
-          >
-            next <br /> generation
-          </motion.span>{" "}
+          welcome to next <br /> 
+          generation
           asset management
         </motion.h1>
       </div>

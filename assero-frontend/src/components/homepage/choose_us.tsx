@@ -14,20 +14,20 @@ const WhyChooseUs = () => {
 
   const points = [
     {
-      title: "made by the best developer in all mankind",
-      description: "Our platform is crafted with utmost expertise, precision, and innovation by a world-class developer." 
+      title: "made by the vighnesh palande",
+      description: "you have no reason to doubt him. he's a super nice guy" 
+    },
+    {
+      title: "i want marks",
+      description: "i worked har for this. please give me marks." 
     },
     {
       title: "blockchain is good",
-      description: "Blockchain technology provides transparency, immutability, and security, making asset management efficient and trustworthy."
+      description: "blockchain technology provides transparency, immutability, and security, making asset management efficient and trustworthy."
     },
     {
       title: "super futuristic",
-      description: "We are ahead of the curve, leveraging cutting-edge technology to build solutions for the future."
-    },
-    {
-      title: "give me marks",
-      description: "This platform represents a technical marvel and an academic achievement, designed to impress." 
+      description: "this ahead of the curve, leveraging cutting-edge technology to build solutions for the future."
     }
   ];
 
