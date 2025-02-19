@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 const Dashboard = () => {
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#17F538] text-black overflow-hidden">
