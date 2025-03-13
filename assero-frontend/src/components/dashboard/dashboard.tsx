@@ -19,7 +19,7 @@ const Dashboard = () => {
           { label: "view assets", href: "/view-asset" },
           { label: "create assets", href: "/create-asset" },
           { label: "transfer assets", href: "/transfer-asset" },
-          { label: "logout", href: "/logout" }, // You can handle logout later
+          { label: "logout", href: "/logout" }, // handle logout later
         ].map((item, index) => (
           <motion.div
             key={item.label}
