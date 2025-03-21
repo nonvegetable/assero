@@ -1,7 +1,12 @@
-// src/components/ConnectWalletButton.tsx
-
 "use client";
 import React from "react";
+
+// Extend the Window interface to include ethereum
+declare global {
+  interface Window {
+    ethereum: any;
+  }
+}
 
 // We'll add a function soon
 const connectMetaMask = async () => {

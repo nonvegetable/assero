@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from "react";
+import { ethers } from "ethers";
+import { getContract } from "@/utils/contract";
 
 const CreateAsset = () => {
-
   const [assetType, setAssetType] = useState("vehicle");
   const [formData, setFormData] = useState({
     ownerName: "",
@@ -43,11 +44,27 @@ const CreateAsset = () => {
     setAssetType(e.target.value);
   };
 
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
     // Add your form submission logic here
+
+    // Interact with the smart contract
+    if (window.ethereum) {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = getContract(signer);
+
+      try {
+        const tx = await contract.mintAsset(signer.getAddress());
+        await tx.wait();
+        console.log("Asset minted successfully:", tx);
+      } catch (error) {
+        console.error("Error minting asset:", error);
+      }
+    } else {
+      alert("MetaMask not detected. Please install it.");
+    }
   };
 
   return (
