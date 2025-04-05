@@ -32,6 +32,7 @@ const CreateAsset = () => {
     constructionYear: "",
     coOwnerDetails: "",
   });
+  const [isPending, setIsPending] = useState(false);
 
   const inputClass = "w-full border border-black rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500 text-black";
 
@@ -44,28 +45,32 @@ const CreateAsset = () => {
     setAssetType(e.target.value);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    // Add your form submission logic here
-
-    // Interact with the smart contract
-    if (window.ethereum) {
+  const handleSubmit = async () => {
+    if (!window.ethereum) {
+      alert("Please install MetaMask!");
+      return;
+    }
+    try {
+      setIsPending(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contract = getContract(signer);
-
-      try {
-        const tx = await contract.mintAsset(signer.getAddress());
-        await tx.wait();
-        console.log("Asset minted successfully:", tx);
-      } catch (error) {
-        console.error("Error minting asset:", error);
+      const accounts = await provider.listAccounts();
+  
+      // If no accounts are connected, prompt once
+      if (!accounts.length) {
+        await window.ethereum.request({ method: "eth_requestAccounts" });
       }
-    } else {
-      alert("MetaMask not detected. Please install it.");
+  
+      const signer = await provider.getSigner();
+      // ... call your contract
+    } catch (err) {
+      // if user dismisses MetaMask or already pending
+      console.error("Error creating asset:", err);
+    }
+    finally {
+      setIsPending(false);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-white relative">
