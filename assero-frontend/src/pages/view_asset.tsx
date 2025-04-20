@@ -1,5 +1,12 @@
-import ViewAssets from "@/components/view-asset/view-asset";
+"use client";
+
+import ProtectedRoute from "@/components/ProtectedRoute";
+import ViewAsset from "@/components/view-asset/view-asset";
 
 export default function ViewAssetPage() {
-  return <ViewAssets />;
+  return (
+    <ProtectedRoute>
+      <ViewAsset />
+    </ProtectedRoute>
+  );
 }

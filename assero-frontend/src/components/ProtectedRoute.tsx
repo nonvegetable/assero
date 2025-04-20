@@ -3,15 +3,14 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
-import Dashboard from "@/components/dashboard/dashboard";
 
-export default function DashboardPage() {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isConnected, loading, ready } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (ready && !loading && !isConnected) {
-      console.log("[DashboardPage] No authenticated user found; redirecting to /login");
+      console.log("[ProtectedRoute] User not authenticated; redirecting to /login");
       router.replace("/login");
     }
   }, [isConnected, loading, ready, router]);
@@ -20,5 +19,7 @@ export default function DashboardPage() {
     return <div>Loading...</div>; // Wait until ready
   }
 
-  return <Dashboard />;
-}
+  return <>{isConnected ? children : null}</>;
+};
+
+export default ProtectedRoute;

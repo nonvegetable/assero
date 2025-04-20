@@ -1,11 +1,7 @@
 "use client";
 
-import HomePage from "../pages/homepage";
+import Home from "@/components/homepage/home";
 
-export default function Page() {
-  return (
-    <div className="antialiased overflow-x-hidden">
-      <HomePage />
-    </div>
-  );
+export default function HomePage() {
+  return <Home />;
 }

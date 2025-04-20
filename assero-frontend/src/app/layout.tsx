@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Poppins } from 'next/font/google';
 import { Dancing_Script } from 'next/font/google';
-import { AuthProvider } from '@/contexts/AuthContext';
+import ClientLayout from './client-layout';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,15 +33,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${dancingScript.variable} antialiased`}>
-      <body className="antialiased overflow-x-hidden">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${dancingScript.variable}`}>
+      <body suppressHydrationWarning className="antialiased overflow-x-hidden">
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -1,8 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { User } from 'firebase/auth';
-import { ethers } from 'ethers';
-import { auth } from '@/utils/firebase';
-import { signInWithCustomToken } from 'firebase/auth';
+"use client";
+
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { ethers } from "ethers";
 
 // Extend the Window interface to include the ethereum property
 declare global {
@@ -12,118 +11,76 @@ declare global {
 }
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  user: User | null;
+  user: { account: string; signer: ethers.JsonRpcSigner } | null;
+  isConnected: boolean;
+  loading: boolean;
+  ready: boolean; // New state to indicate readiness
   connect: () => Promise<void>;
-  disconnect: () => Promise<void>;
-  loading: boolean
-  error: string | null;
+  disconnect: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
-  isAuthenticated: false,
   user: null,
-  connect: async () => {},
-  disconnect: async () => {},
+  isConnected: false,
   loading: false,
-  error: null
+  ready: false, // Default to false
+  connect: async () => {},
+  disconnect: () => {},
 });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<{ account: string; signer: ethers.JsonRpcSigner } | null>(null);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Listen for auth state changes
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setError(null);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const [ready, setReady] = useState(false); // New state
 
   const connect = async () => {
-    if (!window.ethereum) {
-      setError('Please install MetaMask!');
+    if (typeof window.ethereum === "undefined") {
+      alert("MetaMask not detected. Please install it!");
       return;
     }
-
     try {
       setLoading(true);
-      setError(null);
-      
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
-      const address = accounts[0];
-
-      // Get nonce from backend
-      const nonceResponse = await fetch('http://localhost:4000/auth/nonce', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address })
-      });
-
-      if (!nonceResponse.ok) {
-        throw new Error('Failed to get nonce');
+      const accounts: string[] = await window.ethereum.request({ method: "eth_requestAccounts" });
+      if (accounts && accounts.length > 0) {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        setUser({ account: accounts[0], signer });
+        setIsConnected(true);
+        localStorage.setItem("isConnected", "true");
       }
-
-      const { nonce } = await nonceResponse.json();
-
-      // Sign message
-      const signer = await provider.getSigner();
-      const signature = await signer.signMessage(nonce);
-
-      // Get Firebase custom token
-      const tokenResponse = await fetch('http://localhost:4000/auth/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address, signature })
-      });
-
-      if (!tokenResponse.ok) {
-        throw new Error('Failed to verify signature');
-      }
-
-      const { customToken } = await tokenResponse.json();
-
-      // Sign in with Firebase
-      await signInWithCustomToken(auth, customToken);
-
     } catch (error) {
-      console.error('Authentication error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to connect wallet');
+      console.error("MetaMask connection error:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const disconnect = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      await auth.signOut();
-    } catch (error) {
-      console.error('Logout error:', error);
-      setError(error instanceof Error ? error.message : 'Failed to disconnect');
-    } finally {
-      setLoading(false);
-    }
+  const disconnect = () => {
+    setUser(null);
+    setIsConnected(false);
+    localStorage.removeItem("isConnected");
   };
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      if (typeof window.ethereum !== "undefined") {
+        const accounts = await window.ethereum.request({ method: "eth_accounts" });
+        if (accounts && accounts.length > 0) {
+          setIsConnected(true);
+          localStorage.setItem("isConnected", "true");
+        }
+      }
+      setReady(true); // Mark as ready after checking connection
+    };
+    checkConnection();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{
-      isAuthenticated: !!user,
-      user,
-      connect,
-      disconnect,
-      loading,
-      error
-    }}>
+    <AuthContext.Provider value={{ user, isConnected, loading, ready, connect, disconnect }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
 export const useAuth = () => useContext(AuthContext);

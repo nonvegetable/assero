@@ -1,9 +1,35 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
+  const router = useRouter();
+  const { user, isConnected, connect, disconnect, loading } = useAuth();
+
+  // On mount, if not connected, attempt to connect automatically (or redirect)
+  useEffect(() => {
+    if (!loading && !isConnected) {
+      router.replace("/login");
+    }
+  }, [loading, isConnected, router]);
+
+  const handleLogout = () => {
+    disconnect();
+    toast.success("Disconnected successfully");
+    router.replace("/login");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-2xl">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#17F538] text-black overflow-hidden">
@@ -19,7 +45,7 @@ const Dashboard = () => {
           { label: "view assets", href: "/view-asset" },
           { label: "create assets", href: "/create-asset" },
           { label: "transfer assets", href: "/transfer-asset" },
-          { label: "logout", href: "/logout" }, // handle logout later
+          { label: "logout", onClick: handleLogout },
         ].map((item, index) => (
           <motion.div
             key={item.label}
@@ -27,9 +53,18 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2 }}
             whileHover={{ scale: 1.1 }}
-            className="text-sm md:text-base hover:underline"
+            className="text-sm md:text-base hover:underline cursor-pointer"
+            onClick={() =>
+              console.log(
+                `[Dashboard] Clicked "${item.label}" – ${item.href ? "navigating to " + item.href : "executing onClick handler"}`
+              )
+            }
           >
-            <Link href={item.href}>{item.label}</Link>
+            {item.onClick ? (
+              <span onClick={item.onClick}>{item.label}</span>
+            ) : (
+              <Link href={item.href}>{item.label}</Link>
+            )}
           </motion.div>
         ))}
       </motion.nav>
@@ -48,7 +83,7 @@ const Dashboard = () => {
           className="text-[2.5rem] md:text-[4.5rem] lg:text-[5rem] font-bold text-left leading-tight mb-6"
         >
           welcome back, <br />
-            asset master
+          {user?.account.slice(0, 6) + "..." + user?.account.slice(-4)}
         </motion.h1>
 
         <p className="text-lg md:text-xl mb-8">what would you like to do today?</p>

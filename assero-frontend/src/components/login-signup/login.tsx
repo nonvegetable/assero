@@ -1,8 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/utils/firebase";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,10 +22,49 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
-    // Add login API logic here
+    setLoading(true);
+    console.log("Login attempt started with:", { email: formData.email });
+
+    try {
+      if (!auth) {
+        throw new Error("Firebase auth is not initialized.");
+      }
+
+      console.log("Attempting Firebase login...");
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      if (userCredential.user) {
+        console.log("Login successful!", {
+          uid: userCredential.user.uid,
+          email: userCredential.user.email
+        });
+        
+        toast.success("Login successful!");
+        
+        // Wait for auth state to be fully updated
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Try both navigation methods
+        try {
+          await router.push('/dashboard');
+        } catch (routerError) {
+          console.log("Router navigation failed, using window.location");
+          window.location.replace('/dashboard');
+        }
+      }
+
+    } catch (error: any) {
+      console.error("Login error:", error);
+      toast.error(error.message || "Failed to login");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,13 +120,14 @@ const Login = () => {
           <button
             type="submit"
             className="w-full bg-[#17F538] text-black py-2 px-4 rounded-lg font-medium hover:opacity-80 transition duration-300 border-2 border-black"
+            disabled={loading}
           >
-            log in
+            {loading ? "Logging in..." : "log in"}
           </button>
 
           <div className="mt-4 text-left">
             <p className="text-black text-sm">
-              new here? on&apos;t worry, we all start somewhere.{" "}
+              new here? don&apos;t worry, we all start somewhere.{" "}
               <Link href="/signup" className="text-green-600 underline">
                 create an account and join the chaos!
               </Link>

@@ -1,8 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/utils/firebase";
+import toast from "react-hot-toast";
 
 const Signup = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,10 +23,29 @@ const Signup = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Signup Data:", formData);
-    // Add signup API logic here
+    setLoading(true);
+
+    try {
+      // Create user in Firebase
+      await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      // Show success message
+      toast.success("Account created successfully! Please log in.");
+
+      // Redirect to login page
+      router.push("/login");
+    } catch (error: any) {
+      console.error("Signup error:", error);
+      toast.error(error.message || "Failed to create account");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -94,8 +119,9 @@ const Signup = () => {
           <button
             type="submit"
             className="w-full bg-[#17F538] text-black py-2 px-4 rounded-lg font-medium hover:opacity-80 transition duration-300 border-2 border-black"
+            disabled={loading}
           >
-            sign up
+            {loading ? "Signing up..." : "sign up"}
           </button>
 
           <div className="mt-4 text-left">

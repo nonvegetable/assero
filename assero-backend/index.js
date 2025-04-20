@@ -1,20 +1,11 @@
-require('dotenv').config();
-const express = require("express");
-const { create } = require("ipfs-http-client");
-const multer = require("multer");
-const ethers = require("ethers");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const admin = require('firebase-admin');
-
-// Initialize Firebase Admin
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-  })
-});
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import { create } from 'ipfs-http-client';
+import multer from 'multer';
+import * as ethers from 'ethers';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 app.use(express.json());
@@ -25,7 +16,11 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 // Initialize IPFS
-const ipfs = create({ url: process.env.IPFS_URL });
+const ipfs = create({
+  host: 'localhost',
+  port: 5001,
+  protocol: 'http'
+});
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
@@ -41,31 +36,20 @@ const userSchema = new mongoose.Schema({
   }]
 });
 
-const User = mongoose.model('User', models);
+const User = mongoose.model('User', userSchema);
 
-// Middleware for Firebase authentication
-const authenticateFirebase = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split('Bearer ')[1];
-    if (!token) throw new Error('No token provided');
-
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    req.user = decodedToken;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Unauthorized' });
-  }
-};
+// Secret key for JWT
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 // Generate nonce for wallet authentication
 app.post("/auth/nonce", async (req, res) => {
   try {
     const { address } = req.body;
-    const nonce = Math.floor(Math.random() * 1000000).toString();
+    const nonce = Math.floor(Math.random() * 1000000).toString(); // Generate random nonce
     await User.findOneAndUpdate(
-      { address }, 
-      { nonce }, 
-      { upsert: true }
+      { address },
+      { nonce },
+      { upsert: true } // Create user if not exists
     );
     res.json({ nonce });
   } catch (error) {
@@ -73,27 +57,47 @@ app.post("/auth/nonce", async (req, res) => {
   }
 });
 
-// Verify signature and issue Firebase custom token
+// Verify signature and issue JWT
 app.post("/auth/verify", async (req, res) => {
   try {
     const { address, signature } = req.body;
     const user = await User.findOne({ address });
-    
+    if (!user) throw new Error("User not found");
+
     const signerAddr = ethers.verifyMessage(user.nonce, signature);
     if (signerAddr.toLowerCase() !== address.toLowerCase()) {
       throw new Error("Invalid signature");
     }
 
-    // Create custom token with Firebase Admin
-    const customToken = await admin.auth().createCustomToken(address);
-    res.json({ customToken });
+    // Reset nonce to prevent replay attacks
+    const newNonce = Math.floor(Math.random() * 1000000).toString();
+    await User.findOneAndUpdate({ address }, { nonce: newNonce });
+
+    // Create JWT
+    const token = jwt.sign({ address }, JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token });
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
 });
 
+const authenticateJWT = (req, res, next) => {
+  const token = req.headers.authorization?.split('Bearer ')[1];
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ error: 'Invalid or expired token' });
+  }
+};
+
 // Upload file to IPFS
-app.post("/upload", authenticateFirebase, upload.single('file'), async (req, res) => {
+app.post("/upload", authenticateJWT, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) throw new Error("No file uploaded");
 
@@ -111,7 +115,8 @@ app.post("/upload", authenticateFirebase, upload.single('file'), async (req, res
             timestamp: new Date()
           }
         }
-      }
+      },
+      { upsert: true } // Ensure user document exists
     );
 
     return res.json({ 
@@ -125,9 +130,10 @@ app.post("/upload", authenticateFirebase, upload.single('file'), async (req, res
 });
 
 // Get user's files
-app.get("/files", authenticateFirebase, async (req, res) => {
+app.get("/files", authenticateJWT, async (req, res) => {
   try {
     const user = await User.findOne({ address: req.user.address });
+    if (!user) throw new Error("User not found");
     res.json(user.files);
   } catch (error) {
     res.status(500).json({ error: error.message });
