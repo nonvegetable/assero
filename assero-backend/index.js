@@ -148,6 +148,7 @@ const CONTRACT_ABI = [
   "function tokenURI(uint256 tokenId) view returns (string)",
   "function mintAsset(address to, string memory tokenURI) returns (uint256)",
   "function transferFrom(address from, address to, uint256 tokenId)",
+  "function getAssetsByOwner(address owner) public view returns (uint256[])",
 ];
 
 // Initialize provider and wallet
@@ -191,15 +192,8 @@ app.post("/assets", async (req, res) => {
     const tx = await contract.mintAsset(address, tokenURI);
     const receipt = await tx.wait();
 
-    // Find the token ID from the event logs
-    const event = receipt.logs.find(
-      log => log.topics[0] === contract.interface.getEventTopic('Transfer')
-    );
-    const tokenId = event.topics[3];
-
     res.json({
       success: true,
-      tokenId: parseInt(tokenId, 16),
       transactionHash: receipt.hash
     });
   } catch (error) {
@@ -244,6 +238,30 @@ app.get("/assets/:tokenId", async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching asset:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get assets by owner
+app.get("/assets/owner/:address", async (req, res) => {
+  try {
+    const address = req.params.address;
+    const ownedTokens = await contract.getAssetsByOwner(address);
+    
+    const assets = await Promise.all(
+      ownedTokens.map(async (tokenId) => {
+        const uri = await contract.tokenURI(tokenId);
+        return {
+          id: tokenId,
+          owner: address,
+          uri
+        };
+      })
+    );
+
+    res.json(assets);
+  } catch (error) {
+    console.error("Error fetching owner's assets:", error);
     res.status(500).json({ error: error.message });
   }
 });
