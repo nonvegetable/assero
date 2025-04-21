@@ -1,13 +1,11 @@
 import React from "react";
-import CreateAssetForm from "../components/create_asset/create_asset_form";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import CreateAssetForm from "../components/create-asset/create-asset";
+
 
 export default function CreateAsset() {
   return (
     <div className="">
-      <ProtectedRoute>
         <CreateAssetForm />
-      </ProtectedRoute>
     </div>
   );
 }
