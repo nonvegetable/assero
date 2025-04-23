@@ -21,26 +21,39 @@ export const api = {
   },
 
   // File Operations
-  async uploadFile(file: File, token: string) {
+  async uploadFile(file: File) {
     const formData = new FormData();
     formData.append('file', file);
 
     const response = await fetch(`${API_BASE_URL}/upload`, {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
       body: formData
     });
     return response.json();
   },
 
-  async getFiles(token: string) {
-    const response = await fetch(`${API_BASE_URL}/files`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    });
+  async getFiles() {
+    const response = await fetch(`${API_BASE_URL}/files`);
     return response.json();
+  }
+};
+
+// Example file upload usage
+const handleUpload = async (file: File) => {
+  try {
+    const result = await api.uploadFile(file);
+    console.log('File uploaded:', result);
+  } catch (error) {
+    console.error('Upload failed:', error);
+  }
+};
+
+// Example file retrieval
+const getFiles = async () => {
+  try {
+    const files = await api.getFiles();
+    console.log('Files retrieved:', files);
+  } catch (error) {
+    console.error('Failed to get files:', error);
   }
 };

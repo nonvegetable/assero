@@ -4,10 +4,8 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 const Home = () => {
-
   return (
     <div className="min-h-screen bg-[#17F538] text-black overflow-hidden">
-      {/* Navbar */}
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -16,8 +14,9 @@ const Home = () => {
       >
         {[
           { label: "home", href: "/" },
-          { label: "login", href: "/login" },
-          { label: "sign up", href: "/signup" },
+          { label: "view assets", href: "/view-asset" },
+          { label: "create asset", href: "/create-asset" },
+          { label: "transfer asset", href: "/transfer-asset" },
         ].map((item, index) => (
           <motion.div
             key={item.label}
@@ -32,7 +31,6 @@ const Home = () => {
         ))}
       </motion.nav>
 
-      {/* Main Content */}
       <div className="flex items-center justify-center h-[calc(100vh-64px)] px-4 md:px-6">
         <motion.h1
           initial={{ x: -1000 }}
@@ -45,9 +43,8 @@ const Home = () => {
           }}
           className="text-[2.5rem] md:text-[4.5rem] lg:text-[6.75rem] font-bold text-left leading-tight"
         >
-          welcome to next <br /> 
-          generation
-          asset management
+          blockchain asset <br /> 
+          management made simple
         </motion.h1>
       </div>
     </div>
