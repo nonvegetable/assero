@@ -4,6 +4,7 @@ import { getContract, getSigner } from "@/utils/contract";
 import toast from "react-hot-toast";
 import BackButton from '../common/BackButton';
 import NavBar from '../common/NavBar';
+import { FaCopy } from 'react-icons/fa';
 
 interface AssetMetadata {
   title: string;
@@ -62,6 +63,11 @@ const ViewAsset = () => {
     }
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success('Token ID copied to clipboard!');
+  };
+
   const renderAssetDetails = (asset: Asset) => {
     const { metadata } = asset;
 
@@ -101,15 +107,24 @@ const ViewAsset = () => {
         <div className="flex justify-between items-start">
           <div>
             <h3 className="text-xl font-bold text-black">{metadata.title}</h3>
-            <p className="text-sm text-black-600 mt-1">Token ID: {asset.tokenId}</p>
-            <p className="text-sm text-black-600">Created: {metadata.creationDate}</p>
+            <div className="flex items-center gap-2 mt-2 bg-gray-100 p-2 rounded">
+              <span className="text-sm font-semibold text-black">Token ID: {asset.tokenId}</span>
+              <button 
+                onClick={() => copyToClipboard(asset.tokenId)}
+                className="p-1 hover:bg-gray-200 rounded transition-colors"
+                title="Copy Token ID"
+              >
+                <FaCopy className="text-gray-600" />
+              </button>
+            </div>
+            <p className="text-sm text-black-600 mt-1 text-black">Created: {metadata.creationDate}</p>
           </div>
-          <span className="bg-[#17F538] px-3 py-1 rounded-full text-sm capitalize">
+          <span className="bg-[#17F538] px-3 py-1 rounded-full text-sm capitalize text-black">
             {metadata.assetType}
           </span>
         </div>
         
-        <p className="mt-3">{metadata.description}</p>
+        <p className="mt-3 text-black">{metadata.description}</p>
         
         {renderSpecificFields()}
       </div>

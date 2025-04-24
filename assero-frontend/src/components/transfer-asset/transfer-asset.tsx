@@ -57,14 +57,14 @@ const TransferAsset = () => {
         
         <form onSubmit={handleTransfer} className="max-w-md">
           <div className="mb-4">
-            <label className="block text-black text-sm font-bold mb-2">
+            <label className="block text-black text-sm font-bold mb-2 text-black">
               Token ID:
             </label>
             <input
               type="number"
               value={tokenId}
               onChange={(e) => setTokenId(e.target.value)}
-              className="w-full px-3 py-2 border-2 border-black rounded"
+              className="w-full px-3 py-2 border-2 border-black rounded text-black"
               required
             />
           </div>
