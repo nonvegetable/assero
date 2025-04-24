@@ -2,11 +2,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import NavBar from "../common/NavBar";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-[#17F538] text-black overflow-hidden">
-      <motion.nav
+      {/* <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -29,7 +30,8 @@ const Home = () => {
             <Link href={item.href}>{item.label}</Link>
           </motion.div>
         ))}
-      </motion.nav>
+      </motion.nav> */}
+      <NavBar />
 
       <div className="flex items-center justify-center h-[calc(100vh-64px)] px-4 md:px-6">
         <motion.h1
