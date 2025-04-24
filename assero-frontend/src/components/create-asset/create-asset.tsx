@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { getContract } from "@/utils/contract";
 import toast from "react-hot-toast";
 import BackButton from '../common/BackButton';
+import NavBar from '../common/NavBar';
 
 type AssetType = "house" | "car" | "land";
 
@@ -103,7 +104,7 @@ const CreateAsset = () => {
                 name="metadata.houseId"
                 value={assetData.metadata.houseId || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -116,7 +117,7 @@ const CreateAsset = () => {
                 name="metadata.propertyAddress"
                 value={assetData.metadata.propertyAddress || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -129,7 +130,7 @@ const CreateAsset = () => {
                 name="metadata.squareFootage"
                 value={assetData.metadata.squareFootage || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -148,7 +149,7 @@ const CreateAsset = () => {
                 name="metadata.registrationNumber"
                 value={assetData.metadata.registrationNumber || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -161,7 +162,7 @@ const CreateAsset = () => {
                 name="metadata.licensePlate"
                 value={assetData.metadata.licensePlate || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -174,7 +175,7 @@ const CreateAsset = () => {
                 name="metadata.makeModel"
                 value={assetData.metadata.makeModel || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -193,7 +194,7 @@ const CreateAsset = () => {
                 name="metadata.registryNumber"
                 value={assetData.metadata.registryNumber || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -206,7 +207,7 @@ const CreateAsset = () => {
                 name="metadata.plotSize"
                 value={assetData.metadata.plotSize || ""}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -220,7 +221,7 @@ const CreateAsset = () => {
                 value={assetData.metadata.coordinates || ""}
                 onChange={handleInputChange}
                 placeholder="lat,long"
-                className="w-full px-3 py-2 border-2 border-black rounded"
+                className="w-full px-3 py-2 border-2 border-black rounded text-black"
                 required
               />
             </div>
@@ -231,6 +232,7 @@ const CreateAsset = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
+      <NavBar />
       <BackButton />
       <div className="absolute right-0 top-0 h-full w-16 bg-[#17F538]"></div>
       
@@ -246,7 +248,7 @@ const CreateAsset = () => {
               name="assetType"
               value={assetType}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border-2 border-black rounded"
+              className="w-full px-3 py-2 border-2 border-black rounded text-black"
               required
             >
               <option value="house">House</option>
@@ -264,7 +266,7 @@ const CreateAsset = () => {
               name="metadata.title"
               value={assetData.metadata.title}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border-2 border-black rounded"
+              className="w-full px-3 py-2 border-2 border-black rounded text-black"
               required
             />
           </div>
@@ -277,7 +279,7 @@ const CreateAsset = () => {
               name="metadata.description"
               value={assetData.metadata.description}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border-2 border-black rounded"
+              className="w-full px-3 py-2 border-2 border-black rounded text-black"
               required
               rows={3}
             />
@@ -288,7 +290,7 @@ const CreateAsset = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 disabled:bg-gray-400"
+            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 disabled:bg-black disabled:opacity-50"
           >
             {loading ? "Creating..." : "Create Asset"}
           </button>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { getContract, getSigner } from "@/utils/contract";
 import toast from "react-hot-toast";
 import BackButton from '../common/BackButton';
+import NavBar from '../common/NavBar';
 
 interface AssetMetadata {
   title: string;
@@ -117,10 +118,12 @@ const ViewAsset = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
-      <BackButton />
       <div className="absolute right-0 top-0 h-full w-16 bg-[#17F538]"></div>
+      <NavBar />
+      <BackButton />
       
-      <div className="p-6 pr-20 pt-20">
+      
+      <div className="p-6 pr-24 pt-32">
         <h1 className="text-[3.5rem] font-bold mb-6 text-black">your assets</h1>
         
         {loading ? (

@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { getContract } from "@/utils/contract";
 import toast from "react-hot-toast";
 import BackButton from '../common/BackButton';
+import NavBar from '../common/NavBar';
 
 export {};
 
@@ -47,6 +48,7 @@ const TransferAsset = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
+      <NavBar />
       <BackButton />
       <div className="absolute right-0 top-0 h-full w-16 bg-[#17F538]"></div>
       
