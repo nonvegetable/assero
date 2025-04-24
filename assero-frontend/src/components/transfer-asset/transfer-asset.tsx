@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { ethers } from "ethers";
 import { getContract } from "@/utils/contract";
 import toast from "react-hot-toast";
+import BackButton from '../common/BackButton';
 
 export {};
 
@@ -46,9 +47,10 @@ const TransferAsset = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
+      <BackButton />
       <div className="absolute right-0 top-0 h-full w-16 bg-[#17F538]"></div>
       
-      <div className="p-6 pr-20">
+      <div className="p-6 pr-20 pt-20">
         <h1 className="text-[3.5rem] font-bold mb-6 text-black">transfer asset</h1>
         
         <form onSubmit={handleTransfer} className="max-w-md">
@@ -73,7 +75,7 @@ const TransferAsset = () => {
               type="text"
               value={toAddress}
               onChange={(e) => setToAddress(e.target.value)}
-              className="w-full px-3 py-2 border-2 border-black rounded"
+              className="w-full px-3 py-2 border-2 border-black rounded text-black"
               required
             />
           </div>

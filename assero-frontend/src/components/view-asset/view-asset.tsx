@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { getContract, getSigner } from "@/utils/contract";
 import toast from "react-hot-toast";
+import BackButton from '../common/BackButton';
 
 interface AssetMetadata {
   title: string;
@@ -98,9 +99,9 @@ const ViewAsset = () => {
       <div key={asset.tokenId} className="bg-white p-6 rounded-lg shadow-md mb-4 border-2 border-black">
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="text-xl font-bold">{metadata.title}</h3>
-            <p className="text-sm text-gray-600 mt-1">Token ID: {asset.tokenId}</p>
-            <p className="text-sm text-gray-600">Created: {metadata.creationDate}</p>
+            <h3 className="text-xl font-bold text-black">{metadata.title}</h3>
+            <p className="text-sm text-black-600 mt-1">Token ID: {asset.tokenId}</p>
+            <p className="text-sm text-black-600">Created: {metadata.creationDate}</p>
           </div>
           <span className="bg-[#17F538] px-3 py-1 rounded-full text-sm capitalize">
             {metadata.assetType}
@@ -116,15 +117,16 @@ const ViewAsset = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
+      <BackButton />
       <div className="absolute right-0 top-0 h-full w-16 bg-[#17F538]"></div>
       
-      <div className="p-6 pr-20">
+      <div className="p-6 pr-20 pt-20">
         <h1 className="text-[3.5rem] font-bold mb-6 text-black">your assets</h1>
         
         {loading ? (
           <p>Loading assets...</p>
         ) : assets.length === 0 ? (
-          <p>No assets found. Create some assets to get started!</p>
+          <p className="text-black">No assets found. Create some assets to get started!</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {assets.map(asset => renderAssetDetails(asset))}

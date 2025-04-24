@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { getContract } from "@/utils/contract";
 import toast from "react-hot-toast";
+import BackButton from '../common/BackButton';
 
 type AssetType = "house" | "car" | "land";
 
@@ -230,9 +231,10 @@ const CreateAsset = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
+      <BackButton />
       <div className="absolute right-0 top-0 h-full w-16 bg-[#17F538]"></div>
       
-      <div className="p-6 pr-20">
+      <div className="p-6 pr-20 pt-20">
         <h1 className="text-[3.5rem] font-bold mb-6 text-black">create asset</h1>
         
         <form onSubmit={handleCreateAsset} className="max-w-md">
