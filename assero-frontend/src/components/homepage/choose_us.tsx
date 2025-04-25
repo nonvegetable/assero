@@ -14,22 +14,40 @@ const WhyChooseUs = () => {
 
   const points = [
     {
-      title: "made by the vighnesh palande",
-      description: "you have no reason to doubt him. he's a super nice guy" 
+      title: "advanced blockchain security",
+      description: "our platform leverages ethereum's robust blockchain technology to ensure maximum security and immutability for your digital assets. every transaction is cryptographically secured and permanently recorded."
     },
     {
-      title: "i want marks",
-      description: "i worked har for this. please give me marks." 
+      title: "transparent asset management",
+      description: "experience complete transparency in asset ownership and transfers. our smart contract-based system provides real-time verification and automated compliance checks for all transactions."
     },
     {
-      title: "blockchain is good",
-      description: "blockchain technology provides transparency, immutability, and security, making asset management efficient and trustworthy."
+      title: "seamless digital integration",
+      description: "easily manage your digital assets through our intuitive interface. with metamask integration and next.js-powered frontend, we offer a smooth user experience combining blockchain power with modern web technology."
     },
     {
-      title: "super futuristic",
-      description: "this ahead of the curve, leveraging cutting-edge technology to build solutions for the future."
+      title: "future-proof technology",
+      description: "built on industry-standard protocols like erc-721 and utilizing cutting-edge tools including hardhat and openzeppelin, our platform ensures your asset management solution stays ahead of technological advances."
     }
-  ];
+];
+  // const points = [
+  //   {
+  //     title: "made by the vighnesh palande",
+  //     description: "you have no reason to doubt him. he's a super nice guy" 
+  //   },
+  //   {
+  //     title: "i want marks",
+  //     description: "i worked har for this. please give me marks." 
+  //   },
+  //   {
+  //     title: "blockchain is good",
+  //     description: "blockchain technology provides transparency, immutability, and security, making asset management efficient and trustworthy."
+  //   },
+  //   {
+  //     title: "super futuristic",
+  //     description: "this ahead of the curve, leveraging cutting-edge technology to build solutions for the future."
+  //   }
+  // ];
 
   const slideInLeft = {
     hidden: { x: -1000, opacity: 0 },

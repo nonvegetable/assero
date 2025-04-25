@@ -29,19 +29,19 @@ const WeDo = () => {
   const points = [
     {
       title: "creating new assets and adding to the blockchain",
-      description: "We facilitate the creation of digital representations of real-world assets and securely add them to the blockchain for transparency and immutability."
+      description: "we facilitate the creation of digital representations of real-world assets and securely add them to the blockchain for transparency and immutability."
     },
     {
       title: "simplifying the transfer of all the assets",
-      description: "Our platform streamlines the asset transfer process, making it quick, efficient, and hassle-free."
+      description: "our platform streamlines the asset transfer process, making it quick, efficient, and hassle-free."
     },
     {
       title: "decentralising all the asset transfer",
-      description: "By leveraging blockchain, we ensure all asset transfers are decentralized, eliminating intermediaries and enhancing security."
+      description: "by leveraging blockchain, we ensure all asset transfers are decentralized, eliminating intermediaries and enhancing security."
     },
     {
       title: "securing all the necessary documents on blockchain",
-      description: "We use blockchain technology to store important asset documents securely, ensuring they are tamper-proof and easily accessible."
+      description: "we use blockchain technology to store important asset documents securely, ensuring they are tamper-proof and easily accessible."
     }
   ];
 
