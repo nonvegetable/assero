@@ -8,21 +8,21 @@ const MainButtons = () => {
   const buttons = [
     {
       href: '/create-asset',
-      label: 'Create Asset',
+      label: 'create Asset',
       icon: <FaPlus className="text-4xl" />,
-      description: 'Add a new asset to the blockchain'
+      description: 'add a new asset to the blockchain'
     },
     {
       href: '/transfer-asset',
-      label: 'Transfer Asset',
+      label: 'transfer Asset',
       icon: <FaExchangeAlt className="text-4xl" />,
-      description: 'Transfer ownership of your assets'
+      description: 'transfer ownership of your assets'
     },
     {
       href: '/view-asset',
-      label: 'View Assets',
+      label: 'view Assets',
       icon: <FaListAlt className="text-4xl" />,
-      description: 'See all your registered assets'
+      description: 'see all your registered assets'
     }
   ];
 

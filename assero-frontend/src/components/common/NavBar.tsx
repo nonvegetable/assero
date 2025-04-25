@@ -11,14 +11,16 @@ const NavBar = () => {
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="flex justify-between items-center p-4 pr-24 space-x-4 md:space-x-6 text-black font-medium"
     >
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-2xl md:text-3xl font-bold ml-2"
-      >
-        assero
-      </motion.div>
+      <Link href="/">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-2xl md:text-3xl font-bold ml-2"
+        >
+          assero
+        </motion.div>
+      </Link>
 
       <div className="flex space-x-4 md:space-x-6">
         {[
