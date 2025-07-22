@@ -1,5 +1,10 @@
-import Signup from "@/components/login-signup/signup";
+import React from "react";
 
 export default function SignupPage() {
-  return <Signup />;
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      <h1 className="text-4xl mb-8">Signup Page</h1>
+      <p>Signup functionality coming soon!</p>
+    </div>
+  );
 }

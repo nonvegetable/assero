@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider } from '@/contexts/AuthContext';
 
 export default function ClientLayout({
   children,
@@ -15,9 +14,9 @@ export default function ClientLayout({
   }, []);
 
   return (
-    <AuthProvider>
+    <>
       <Toaster position="top-right" />
       {children}
-    </AuthProvider>
+    </>
   );
 }

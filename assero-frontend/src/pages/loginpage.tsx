@@ -1,24 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
 import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { isConnected, connect, loading, ready } = useAuth();
 
-  useEffect(() => {
-    if (ready && !loading && isConnected) {
+  // Simple MetaMask connect (optional)
+  const connect = async () => {
+    if (!(window as any).ethereum) {
+      toast.error("Please install MetaMask!");
+      return;
+    }
+    try {
+      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
       toast.success("Connected via MetaMask");
       router.replace("/dashboard");
+    } catch (e) {
+      toast.error("Connection failed");
     }
-  }, [loading, isConnected, ready, router]);
-
-  if (!ready || loading) {
-    return <div>Loading...</div>; // Wait until ready
-  }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white">
@@ -26,9 +28,8 @@ const LoginPage = () => {
       <button
         onClick={connect}
         className="bg-black text-white px-6 py-3 rounded-lg hover:opacity-80 transition"
-        disabled={loading}
       >
-        {loading ? "Connecting..." : "Connect MetaMask"}
+        Connect MetaMask
       </button>
     </div>
   );
