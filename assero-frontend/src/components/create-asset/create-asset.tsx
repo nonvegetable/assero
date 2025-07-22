@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { getContract } from "@/utils/contract";
+import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import BackButton from '../common/BackButton';
 import NavBar from '../common/NavBar';
@@ -67,7 +68,9 @@ const CreateAsset = () => {
       const metadataString = JSON.stringify(assetData.metadata);
       const tokenURI = `data:application/json;base64,${btoa(metadataString)}`;
 
-      const contract = getContract();
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = getContract(signer);
       const tx = await contract.createAsset(tokenURI);
       await tx.wait();
       

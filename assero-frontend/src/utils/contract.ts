@@ -2,13 +2,8 @@
 
 import { ethers } from "ethers";
 
-const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL || "http://127.0.0.1:8545";
-const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY!;
-const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
-
-// Initialize provider and signer
-const provider = new ethers.JsonRpcProvider(RPC_URL);
-const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
 const contractABI = [
   "function createAsset(string memory tokenURI) public returns (uint256)",
@@ -19,7 +14,17 @@ const contractABI = [
   "function balanceOf(address owner) view returns (uint256)"
 ];
 
-const contract = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
+// Returns a contract instance connected to the given signer (MetaMask)
+export const getContract = (signerOrProvider?: ethers.Signer | ethers.Provider) => {
+  if (!CONTRACT_ADDRESS) {
+    throw new Error("Contract address not configured");
+  }
 
-export const getContract = () => contract;
-export const getSigner = () => signer;
+  // Only access window.ethereum in browser environment
+  if (typeof window !== "undefined") {
+    const provider = signerOrProvider || new ethers.BrowserProvider((window as any).ethereum);
+    return new ethers.Contract(CONTRACT_ADDRESS, contractABI, provider);
+  }
+
+  throw new Error("Web3 provider not available");
+};

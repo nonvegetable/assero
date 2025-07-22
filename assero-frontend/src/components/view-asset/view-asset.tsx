@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getContract, getSigner } from "@/utils/contract";
+import { getContract } from "@/utils/contract";
+import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import BackButton from '../common/BackButton';
 import NavBar from '../common/NavBar';
@@ -29,8 +30,9 @@ const ViewAsset = () => {
 
   const fetchAssets = async () => {
     try {
-      const contract = getContract();
-      const signer = getSigner();
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = getContract(signer);
       
       // Get the signer's address
       const address = await signer.getAddress();
