@@ -30,7 +30,7 @@ const TransferAsset = () => {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = getContract(signer);
+      const contract = getContract();
       
       const tx = await contract.transferAsset(toAddress, tokenId);
       await tx.wait();
