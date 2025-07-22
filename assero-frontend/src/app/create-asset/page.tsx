@@ -1,5 +1,6 @@
-import CreateAsset from "../../pages/create_asset";
+"use client";
+import CreateAssetForm from "@/components/create-asset/create-asset";
 
 export default function CreateAssetPage() {
-  return <CreateAsset />;
-} 
+  return <CreateAssetForm />;
+}

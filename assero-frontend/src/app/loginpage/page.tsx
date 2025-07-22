@@ -1,13 +1,10 @@
 "use client";
-
-import React from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-const LoginPage = () => {
+export default function LoginPage() {
   const router = useRouter();
 
-  // Simple MetaMask connect (optional)
   const connect = async () => {
     if (!(window as any).ethereum) {
       toast.error("Please install MetaMask!");
@@ -33,6 +30,4 @@ const LoginPage = () => {
       </button>
     </div>
   );
-};
-
-export default LoginPage;
+}

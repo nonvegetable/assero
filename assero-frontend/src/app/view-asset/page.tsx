@@ -1,5 +1,6 @@
-import ViewAssetPage from "@/pages/view_asset";
+"use client";
+import ViewAsset from "@/components/view-asset/view-asset";
 
-export default function ViewAsset() {
-  return <ViewAssetPage />;
+export default function ViewAssetPage() {
+  return <ViewAsset />;
 }

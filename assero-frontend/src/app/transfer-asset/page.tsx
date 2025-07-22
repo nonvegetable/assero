@@ -1,5 +1,6 @@
-import TransferAsset from "../../pages/transfer_asset";
+"use client";
+import TransferAssetForm from "@/components/transfer-asset/transfer-asset";
 
-export default function CreateAssetPage() {
-  return <TransferAsset />;
-} 
+export default function TransferAssetPage() {
+  return <TransferAssetForm />;
+}
