@@ -1,0 +1,13 @@
+node_id = "RTO-A"
+listen_addr = ":7000"
+data_dir = "/var/lib/asserro"
+queue_dir = "/var/lib/asserro/queue"
+metrics_addr = ":9090"
+committee_size = 3
+required_votes = 2
+heartbeat_interval = "10s"
+reconnect_interval = "2s"
+
+[peers]
+RTO-B = "node-b:7001"
+RTO-C = "node-c:7002"

@@ -32,7 +32,7 @@ The log is intentionally simple and inspectable. It is a correctness baseline, n
 
 ## Distributed prototype path
 
-The originating validator submits a signed proposal. All validators can derive the same committee from the previous checkpoint hash, transaction hash, and epoch. Only committee members vote. The `consensus` package implements deterministic selection, signed votes, quorum certificates, and finalized-vehicle conflict tracking. The `network` package provides a virtual offline queue and incremental transaction sync. The `simulation` package exercises randomized, fixed, and all-validator communication baselines with seeded failure injection. Persistent TCP transport, authenticated membership certificates, and Merkle proofs remain follow-on work.
+The originating validator submits a signed proposal. All validators can derive the same committee from the previous checkpoint hash, transaction hash, and epoch. Only committee members vote. The `consensus` package implements deterministic selection, signed votes, quorum certificates, and finalized-vehicle conflict tracking. The `network` package provides both a virtual transport and a persistent framed TCP transport with reconnect, heartbeat, and durable outbound queues. The `simulation` package exercises randomized, fixed, and all-validator communication baselines with seeded failure injection. Authenticated membership certificates, TLS, and Merkle proofs remain follow-on work.
 
 ## Design vocabulary
 

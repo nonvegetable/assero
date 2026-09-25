@@ -1,0 +1,50 @@
+services:
+  node-a:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: ["--config", "/etc/asserro/node-a.toml", "run"]
+    entrypoint: ["/bin/sh", "-c", "if [ ! -f /var/lib/asserro/identity.json ]; then /usr/local/bin/asserod --data /var/lib/asserro init --node-id RTO-A --config /tmp/generated.toml; fi; exec /usr/local/bin/asserod \"$@\"", "--"]
+    ports:
+      - "7000:7000"
+      - "9090:9090"
+    volumes:
+      - node-a-data:/var/lib/asserro
+      - ./configs/node-a.toml:/etc/asserro/node-a.toml:ro
+    mem_limit: 128m
+    cpus: 0.50
+
+  node-b:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: ["--config", "/etc/asserro/node-b.toml", "run"]
+    entrypoint: ["/bin/sh", "-c", "if [ ! -f /var/lib/asserro/identity.json ]; then /usr/local/bin/asserod --data /var/lib/asserro init --node-id RTO-B --config /tmp/generated.toml; fi; exec /usr/local/bin/asserod \"$@\"", "--"]
+    ports:
+      - "7001:7001"
+      - "9091:9091"
+    volumes:
+      - node-b-data:/var/lib/asserro
+      - ./configs/node-b.toml:/etc/asserro/node-b.toml:ro
+    mem_limit: 128m
+    cpus: 0.50
+
+  node-c:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: ["--config", "/etc/asserro/node-c.toml", "run"]
+    entrypoint: ["/bin/sh", "-c", "if [ ! -f /var/lib/asserro/identity.json ]; then /usr/local/bin/asserod --data /var/lib/asserro init --node-id RTO-C --config /tmp/generated.toml; fi; exec /usr/local/bin/asserod \"$@\"", "--"]
+    ports:
+      - "7002:7002"
+      - "9092:9092"
+    volumes:
+      - node-c-data:/var/lib/asserro
+      - ./configs/node-c.toml:/etc/asserro/node-c.toml:ro
+    mem_limit: 128m
+    cpus: 0.50
+
+volumes:
+  node-a-data:
+  node-b-data:
+  node-c-data:
